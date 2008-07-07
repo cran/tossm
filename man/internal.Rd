@@ -1,0 +1,33 @@
+\name{tossm-internal}
+\title{Undocumented functions for the tossm library}
+\alias{abind.mvb}
+\alias{adjust.pop.dyn}
+\alias{agg.gs.series}
+\alias{agg.gs.to.gtypes}
+\alias{as.smat}
+\alias{breed.grow.die}
+\alias{calc.effort}
+\alias{CLA}
+\alias{def.depleter}
+\alias{def.set.coords}
+\alias{divvy.BPs}
+\alias{divvy.catch}
+\alias{generate.coords}
+\alias{harvest}
+\alias{in.gpc}
+\alias{index.to.state}
+\alias{PBR}
+\alias{poly.intersect}
+\alias{poly.union}
+\alias{prepare.rland}
+\alias{print.printinfo}
+\alias{print.tossm.obj}
+\alias{raw.CLA}
+\alias{rsample}
+\alias{set.interval.polys}
+\alias{sim.abund.est}
+\alias{sqr}
+\alias{tossm.diagnostics}
+\alias{tossm.plotter}
+\description{Internal tossm functions}
+\keyword{internal}
