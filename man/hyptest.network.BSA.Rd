@@ -1,15 +1,19 @@
 \name{hyptest.network.BSA}
 \alias{hyptest.network.BSA}
+\alias{structure.BSA}
+\alias{wombsoft.BSA}
 \alias{fixed.MU.BSA}
 \title{Boundary setting algorithms}
 \description{
 
-\code{hyptest.network.BSA} and \code{fixed.MU.BSA} are examples of boundary-setting algorithms (BSAs) used to set
+\code{hyptest.network.BSA}, \code{structure.BSA}, \code{wombsoft.BSA}, and \code{fixed.MU.BSA} are examples of boundary-setting algorithms (BSAs) used to set
  management boundaries in a \pkg{tossm} simulation.  
 }
 \usage{
 
 hyptest.network.BSA(gs,abund,var,C,landscape.poly,sample.polys,sig.level) 
+structure.BSA(gs,abund,var,C,landscape.poly,sample.polys,mainparams,BSA.params)
+wombsoft.BSA(gs,abund,var,C,landscape.poly,sample.polys,sig.level,min.MU.size)
 fixed.MU.BSA(gs,abund,var,C,landscape.poly,sample.polys,n.mus)
 }
 \arguments{
@@ -23,12 +27,29 @@ fixed.MU.BSA(gs,abund,var,C,landscape.poly,sample.polys,n.mus)
 \item{landscape.poly}{a landscape polygon object defining the study area extent (the bounding box of the 
 \code{bp.polys})}
 \item{sample.polys}{a list of sampling polygons to be lumped or split into separate management units by the BSA}
-\item{sig.level}{significance value threshold for setting a management boundary}
-\item{n.mus}{number of MUs to create}
+\item{sig.level}{significance value threshold for setting a management boundary in \code{hyptest.network.BSA}}
+\item{n.mus}{number of MUs to be created by \code{fixed.MU.BSA}}
+\item{mainparams}{parameters to be used by the program Structure in \code{structure.BSA}.  \code{mainparams} is a list consisting of the following components: \cr
+\code{numinds}: total number of individuals sampled \cr
+\code{numloci}: number of loci to be analyzed by Structure \cr
+\code{ploidy}: ploidy of loci to be analyzed by Structure \cr
+\code{noadmix}: whether populations are assumed to be admixed (1) or not (0) \cr
+\code{freqscorr}: whether allele frequencies between populations are correlated (1) or not (0) \cr
+\code{maxpops}: the maximum number of populations to be defined by Structure \cr
+\code{burnin}: the length of the burnin period used by Structure \cr
+\code{iterations}: the number of iterations of the MCMC chain to be used by Structure in assigning population membership \cr
+Further information regarding these parameters can be found in the Structure user's manual}
+\item{BSA.params}{a list with the following components to be used by \code{structure.BSA}: \cr
+\code{output.dir}: the directory to which STRUCTURE results should be written \cr
+\code{k}: a list of the values of k (number of populations) to be evaluated \cr
+\code{struct.exe.path}: the directory where structure.exe resides and where main params will be written. 
+The default value should be fine, so long as structure.exe is not moved subsequent to the installation of the package. \cr
+\code{struct.outfile}: the name of the output file to be written by STRUCTURE.   
+ \cr
+}
 }
 \value{\code{munits}--A list with each element consisting of a management unit, represented by a polygon of class 
 \code{gpc.poly}.}
-
 \details{
 
 
@@ -41,6 +62,35 @@ network if they do not show significant genetic differentiation (at the alpha le
 extends to all sampling polygons connected by at least one non-significant test; ie. a sampling polygon might not be
 directly connected to all sampling polygons in its assigned network. Networks are separated from each other by exclusive
 significant tests with all other sampling polygon networks.  Each resulting network constitutes a management unit.
+\cr
+\cr
+\code{structure.BSA} uses the Bayesian clustering method implemented by the program STRUCTURE (Pritchard et al. 2000, Falush et al. 2002)
+to determine the number of MUs that should be defined.  The BSA uses STRUCTURE to divide the samples into the numbers of populations
+specified by \code{BSA.params$k} and compares the log-likelihoods of the resulting groupings to determine the optimal number of 
+MUs.  The MU membership of each samplings site is then determined by examining the population membership, as defined by STRUCTURE,
+of each sample within the sampling site.  The site is assigned to the MU to which the greatest number of samples belongs.
+Thus, if a sampling site contained 50 samples, 20 of which were assigned to population 1 and 30 of which were assigned to population 2,
+the entire sampling site would be assigned to MU 2.  N0ote that a consequence of this approach is that it may result in the definition 
+of fewer MUs than there are STRUCTURE-defined populations.  For instance, if STRUCTURE defined 4 populations, but only assigned a few samples to
+population 4, there may be no sampling site in which the plurality of samples belongs to population 4.  In this case, no sampling 
+site would be assigned to MU 4 and there would effectively be only 2 MUS.
+\cr
+Once sampling sites have been assigned to MUs, the MU.polys are defined using the function \code{MU.poly.generator}
+\cr
+In order to use \code{structure.BSA}, the command-line version of STRUCTURE (i.e., without the graphical user interface), 
+must first be installed.  This program is available in UNIX, DOS, and MacOS X versions from the STRUCTURE homepage.  The argument 
+\code{BSA.params$struct.exe.path} is used to specify the directory in which STRUCTURE is installed.
+\cr
+\cr
+\code{wombsoft.BSA} uses the R package \pkg{wombsoft} of Crida and Manel (2007). It first identifies regions within the study area where genetic gradients are relatively strong. The algorithm
+then uses a binomial test to assess the significance of these areas as genetic boundaries. The significance threshold of this test can be chosen by the user using the 
+argument \code{sig.level}. The output of the wombsoft algorithm is then adapted in the following two ways:
+\cr
+1) If only a single, non-significant grid-cell interrupts a potential MU boundary, the boundary is drawn across such 
+one-cell gaps.
+\cr
+2) If the size of an MU is less than a user-specified proportion of the total study area (\code{min.MU.size}), the MU is ignored. This 
+alleviates the fact that the algorithm sometimes outputs very small (one or two grid cell) MUs.
 \cr
 \cr
 \code{fixed.MU.BSA} simply splits the study region into equally-sized management units, and disregards all genetic
@@ -134,8 +184,12 @@ info on \code{\link{MU.poly.generator}} is available on its help page.
 }
 \seealso{ \code{\link{tossm-package}}, \code{\link{run.tossm}}}
 \references{
-Dupanloup I, Scheider S. and Excoffier L. 2002  A simulated annealing approach to define the genetic structure of populations.
-\emph{Molecular Ecology} \bold{11}, 2571--2581.
+
+Crida A., and Manel S. 2007. WOMBSOFT: an R package that implements the Wombling method to identify genetic boundary.
+\emph{Molecular Ecology Notes} \bold{7}, 588--591
+
+Dupanloup I., Scheider S. and Excoffier L. 2002  A simulated annealing approach to define the genetic structure of populations.
+\emph{Molecular Ecology} \bold{11}, 2571--2581
 
 Guillot G., Mortier F. and Estoup A. 2005  GENELAND: a computer package for landscape genetics. 
 \emph{Molecular Ecology Notes} \bold{5}, 712--715
@@ -152,8 +206,8 @@ the number of gene pools and their degree of connectivity. \emph{Molecular Ecolo
 schedule=def.make.schedule(n.pre.RMP=5,n.RMP=10,n.post.RMP=5,abund.gap=2)
 
 #run example with BSA set to hyptest.network.BSA
-example<-run.tossm(rland = rland.end, bp.polys=bp.polys,
-schedule = schedule,n.samples = 25, sample.polys=sample.polys, 
+example<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 initial.depletion=0.30,historic.removals=NULL, 
 BSA = hyptest.network.BSA, BSA.args = list(sig.level=.05),
 harvest.interval=10)

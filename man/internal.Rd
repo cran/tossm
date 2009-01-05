@@ -8,14 +8,19 @@
 \alias{breed.grow.die}
 \alias{calc.effort}
 \alias{CLA}
+\alias{count.whales.b}
 \alias{def.depleter}
 \alias{def.set.coords}
 \alias{divvy.BPs}
 \alias{divvy.catch}
+\alias{fast.trans}
 \alias{generate.coords}
+\alias{get.SRM}
 \alias{harvest}
 \alias{in.gpc}
 \alias{index.to.state}
+\alias{km.simple.demo}
+\alias{old.bgd}
 \alias{PBR}
 \alias{poly.intersect}
 \alias{poly.union}
@@ -26,8 +31,14 @@
 \alias{rsample}
 \alias{set.interval.polys}
 \alias{sim.abund.est}
+\alias{single.MU.BSA}
 \alias{sqr}
+\alias{structure.batch.BSA}
+\alias{TAC.split.by.f}
 \alias{tossm.diagnostics}
 \alias{tossm.plotter}
+\alias{trajectory.plotter}
+\alias{write.mainparams}
+\alias{zzz}
 \description{Internal tossm functions}
 \keyword{internal}

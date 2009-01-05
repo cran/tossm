@@ -56,8 +56,8 @@ comfortable with the package. \cr
 \item{stop.years, gs.years, abund.est.years, pre.RMP.years,\cr CLA.years, post.RMP.years, BSA.years}{integer vectors dictating the timing of events in \code{schedule}.}
 
 \item{harvest.interval}{A vector of length one, which specifies the width of the harvest intervals into which the study area 
-is divided.  This argument controls the degree to which harvest is spatially concentrated within MU.  Specifying a harvest 
-interval width that is very small relative to the x-range of the breeding populations will result maximize the degree to 
+is divided.  This argument controls the degree to which harvest is spatially concentrated within MUs.  Specifying a harvest 
+interval width that is very small relative to the x-range of the breeding populations will maximize the degree to 
 which harvest is spatially concentrated.  Setting the harvest interval width equal to the x-range of the entire simulated 
 landscape (i.e., all breeding populations combined) will result in the harvest being taken uniformly across each management 
 unit.  See \code{\link{tossm-package}} for more details on harvest intervals.}
@@ -81,14 +81,14 @@ unit.  See \code{\link{tossm-package}} for more details on harvest intervals.}
   \item{var.abund.mu }{the variance of abundance estimates for each Management Unit throughout the simulation.}
   \item{gs }{a list containing all of the data from genetic samples taken during the simulation by year and by sampling area polygon.  Each sample is also attributed with IDs of the individuals sampled as well as coordinate information. 
 This information can be accessed using \code{unclass}.}
-  \item{agg.gs, agg.gtypes }{the same as \code{gs} but with genetic samples from each sampling polygon aggregated by year.  See \code{\link{agg.gs.tseries}} for description of formats.  Each aggregated sample is also attributed with IDs of the individuals sampled,the birth year of each individual, as well as coordinate information. 
+  \item{agg.gs, agg.gtypes }{the same as \code{gs} but with genetic samples from each sampling polygon aggregated by year.  See \code{\link{agg.gs.tseries}} for description of formats.  Each aggregated sample is also attributed with IDs of the individuals sampled,the birth year of each individual, and the spatial coordinates where each individual was sampled. 
 This information can be accessed using \code{unclass}.}
   \item{agg.gfreq }{a single 3-D array with dimension (number of sampling polygons, number of loci, max number of alleles at a locus) containing allele frequencies for each locus within each sampling polygon.}
   \item{call }{the original call to run.tossm}
   \item{seed }{the seed used for the random number generator.}  
 }
 \seealso{
-\code{\link{tossm-package}}, \code{\link{hyptest.network.BSA}}}
+\code{\link{tossm-package}}, \code{\link{hyptest.network.BSA}}
 }
 \references{
 
@@ -103,8 +103,8 @@ mammals. \emph{Conservation Biology} \bold{14}, 1243-1252.
 schedule=def.make.schedule(n.pre.RMP=5,n.RMP=10,n.post.RMP=5,abund.gap=2)
 
 #Example 1: Use initial.depletion to specify pre-modern management depletion
-example1<-run.tossm(rland = rland.end, bp.polys=bp.polys,
-schedule = schedule,n.samples = 25, sample.polys=sample.polys, 
+example1<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 initial.depletion=.30,historic.removals=NULL, 
 BSA = fixed.MU.BSA, BSA.args = list(n.mus=5),harvest.interval=10,plot.polys=TRUE)
 
@@ -117,9 +117,9 @@ removals.h1<-rep(75,5)
 removals.h2<-rep(0,5)
 historic.removals<-cbind(removals.h1,removals.h2)
 
-example2<-run.tossm(rland = rland.end, bp.polys=bp.polys,
-schedule = schedule,n.samples = 25, sample.polys=sample.polys, 
-historic.removals=historic.removals,historic.polys = historic.polys, 
+example2<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
+historic.removals=historic.removals,historic.polys = example.historic.polys, 
 BSA = fixed.MU.BSA, BSA.args = list(n.mus=5),harvest.interval=10,plot.polys=T)
 
 }

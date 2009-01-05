@@ -165,17 +165,23 @@ the PBR or the CLA. \cr
 \emph{Recovery phase}:  
 This phase is an optional period that allows post-harvest population recovery before the end
  of the simulation. \cr
+
+
+
+\strong{\emph{System requirements}} \cr
+
+To run the catch-limit algorithm, the file MANAGE-D.exe (windows),MANAGE-D (unix), or MANAGEMAC-D (MacOS) must exist in the root folder of \pkg{tossm}, as they do upon installation of the package.
 }
 \references{
 
 Cooke, J.G. 1994  The management of whaling. \emph{Aquatic Mammalogy} \bold{20}, 129-135.
 
-IWC. 1994  The Revised Management Procedure (RMP) for baleen whales. \emph{Rep. Int. Whal. Commn.} \bold{44}, 145-167. 
+IWC. 1994  The Revised Management Procedure (RMP) for Baleen Whales. \emph{Rep. Int. Whal. Commn.} \bold{44}, 145-167. 
 
 Strand A.E. 2002  METASIM 1.0: an individual-based environment for simulating population genetics of complex population 
 dynamics. \emph{Molecular Ecology} \bold{2}, 373-376.
 
-Taylor, B.L., P.R. Wade, D.P. DeMaster, and J. Barlow 2000  Incorporating uncertainty into management models for marine 
+Taylor, B.L., P.R. Wade, D.P. DeMaster, and J. Barlow. 2000  Incorporating uncertainty into management models for marine 
 mammals. \emph{Conservation Biology} \bold{14}, 1243-1252. 
 }
 \details{
@@ -183,8 +189,8 @@ mammals. \emph{Conservation Biology} \bold{14}, 1243-1252.
 Package: \tab tossm\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
-Date: \tab 2008-07-01\cr
-License: \tab GPL (>= 2)\cr
+Date: \tab 2007-07-20\cr
+License: \tab ------\cr
 }
 }
 \author{
@@ -193,5 +199,6 @@ Mark Bravington, Karen Martien, and Dave Gregovich
 Maintainer: Karen Martien <Karen.Martien@noaa.gov>
 
 }
-\seealso{\code{\link[<rmetasim>:<rmetasim>-package]{<rmetasim>}} \code{\link{run.tossm}} \code{\link{hyptest.network.BSA}}}
+
+\seealso{\code{\link{run.tossm}} \code{\link{hyptest.network.BSA}}}
 \keyword{package}

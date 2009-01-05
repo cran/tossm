@@ -5,7 +5,7 @@ function(unused1, unused2, bp.polys, rland, TAC){
 	goners <- goner.locs <- vector("list",n.bps)
 	for (i.b in 1:n.bps){
 		if (TAC[i.b] > 0) goners[[i.b]] <- sample(which(landscape.populations(rland)==i.b),TAC[i.b],replace=FALSE)
-		goner.locs[[i.b]] <- rland$individuals[goners[[i.b]],4]
+		goner.locs[[i.b]] <- matrix(rland$individuals[goners[[i.b]],c(4,3)],ncol=2)
 		goner.locs[[i.b]] <- cbind(goner.locs[[i.b]],generate.coords(bp.polys[[i.b]],TAC[i.b]))
 	}
 	goners <- do.call("c",lapply(goners, function(x) x))

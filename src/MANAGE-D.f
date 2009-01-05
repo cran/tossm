@@ -194,7 +194,7 @@ C     First set ILAST = year of the most recent abundance estimate
       IF (NS.GT.0) ILAST = ISYR(NS-1)
       IF (NZ.GT.0) ILAST = MAX(ILAST, IZYR(NZ-1))
 C
-      DO 100 IY = IYEAR,IYEAR+PCYCLE-1
+      DO 100 IY = IYEAR,IYEAR+(INT(PCYCLE+0.0001))-1
         IF (POUT.EQ.1) THEN 
           CALL PHOUT (CL,RAWCL,ILAST,IY)
         ELSE

@@ -68,21 +68,19 @@ When manually inputting a schedule of events, rather than using \code{def.make.s
 #set up sampling and management schedule using def.make.schedule
 schedule=def.make.schedule(n.pre.RMP=5,n.RMP=10,n.post.RMP=5,abund.gap=2)
 
-example1<-run.tossm(rland = rland.end, bp.polys=bp.polys,
-schedule = schedule,n.samples = 25, sample.polys=sample.polys, 
+example1<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 initial.depletion=0.30,historic.removals=NULL,
 BSA = fixed.MU.BSA, BSA.args = list(n.mus=5),harvest.interval=10)
 
 \dontrun{
 #Example 2: specify extra genetic sampling years beyond the def.make.schedule default
 #using gs.years
-example2<-run.tossm(rland = rland.end, gs.years=c(10,12,14),bp.polys=bp.polys,
-schedule = schedule,n.samples = 25, sample.polys=sample.polys, 
+example2<-run.tossm(rland = rland.end, gs.years=c(10,12,14),bp.polys=example.bp.polys,
+schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 initial.depletion=0.30,historic.removals=NULL, 
 BSA = fixed.MU.BSA, BSA.args = list(n.mus=5),harvest.interval=10)
 }
 }
-\seealso{
-\code{\link{run.tossm}},\code{\link{tossm-package}}
-}
+
 \keyword{internal}

@@ -1,4 +1,4 @@
-`raw.CLA` <-
+"raw.CLA" <-
 function(Catches,Abund.est,CV.est,Years.est,First.Year,
     Last.Year,Directory=getwd()){
  Yrs <- First.Year %upto% Last.Year
@@ -6,7 +6,7 @@ function(Catches,Abund.est,CV.est,Years.est,First.Year,
 
  FileName <- file.path( Directory,"CLC.DAT")
  write("FROM CLA SIMULATION",file=FileName)
- write("",file=FileName,append=T)
+ write("",file=FileName,append=TRUE)
  xx <- paste("First year of input          ",First.Year,sep="")
  write(xx,file=FileName,append=TRUE)
  xx <- paste("Year of next catch limit     ",(Last.Year+1),sep="")
@@ -55,4 +55,5 @@ function(Catches,Abund.est,CV.est,Years.est,First.Year,
  TheQuota <- scan(FileName,n=1, quiet=TRUE)
  return(TheQuota)
 }
+
 

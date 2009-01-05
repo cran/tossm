@@ -33,7 +33,6 @@ The function \code{MU.poly.generator} should be included within (near the end) o
 grid of cells. Each cell is assigned the management unit of the \code{sample.poly} which it is closest to.  Grid cells 
 that share a management unit are then joined together.  The resulting management units meet the requirements of a BSA, as they
 are non-overlapping and cover the entire simulated study area.
-
 }
 \seealso{ \code{\link{tossm-package}},\code{\link{run.tossm}},\code{\link{hyptest.network.BSA}}}
 \examples{
@@ -50,9 +49,9 @@ removals.h1<-rep(75,5)
 removals.h2<-rep(0,5)
 historic.removals<-cbind(removals.h1,removals.h2)
 
-example<-run.tossm(rland = rland.end, bp.polys=bp.polys,
-schedule = schedule,n.samples = 25, sample.polys=sample.polys, 
-historic.removals=historic.removals,historic.polys = historic.polys, 
+example<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
+historic.removals=historic.removals,historic.polys = example.historic.polys, 
 BSA = hyptest.network.BSA, BSA.args = list(sig.level=.05),
 harvest.interval=10)
 }

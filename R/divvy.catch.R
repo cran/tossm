@@ -1,6 +1,6 @@
 `divvy.catch` <-
 function(locs, mu.polys){
 	sapply(mu.polys, function(mu){
-		sum(in.gpc(mu,locs[,2:3]))})
+		sum(in.gpc(mu,locs[,3:4]))})
 }
 
