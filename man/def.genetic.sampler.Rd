@@ -16,5 +16,5 @@ assigns coordinates for each sample consistent with a random spatial distributio
 from each of these points. \cr
 Other sampling strategies can be developed through revision of the \code{def.genetic.sampler} code.
 }
-
+\seealso{\code{\link{tossm-package}} \code{\link{run.tossm}}}
 \keyword{internal}

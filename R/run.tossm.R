@@ -1,4 +1,4 @@
-`run.tossm` <-
+"run.tossm" <-
 function( rland=NULL, bp.polys, schedule=NULL,
     n.samples=NULL, sample.polys, initial.depletion=.30, historic.removals=NULL,
     historic.polys=NULL, BSA=fixed.MU.BSA, BSA.args=list(n.mus=1),
@@ -207,4 +207,5 @@ function( rland=NULL, bp.polys, schedule=NULL,
   class( result) <- 'tossm.obj'
 return( result)
 }
+
 

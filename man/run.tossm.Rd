@@ -65,7 +65,7 @@ unit.  See \code{\link{tossm-package}} for more details on harvest intervals.}
 \item{ abund.for.10pc.CV}{The coefficient of variation (CV) of the abundance estimates is assumed to be proportional to 1/sqrt( abund).  The constant of proportionality is chosen so that the CV is 0.1 at the value specified by this argument.  The default value for this argument (70,000) results in a CV of 0.30 when abundance equals 7,500.}
 \item{ quota.calc}{The algorithm to use for calculating catch quotas.  There are two quota calculating algorithms included with the \code{TOSSM} package - \code{CLA} (IWC, 1994), which is the algorithm used by the International Whaling Commission to set quotas, and \code{PBR} (Taylor et al. 2000), which is the algorithm for calculating quotas under the U.S. Marine Mammal Protection Act.}
 \item{ quota.args}{Extra arguments passed to the quota calculating algorithm. \code{multiplier} is used to scale the quota-- default is 1X.  \code{multiplier} is used by both \code{CLA} and \code{PBR}.  \code{r.max} and \code{F.r} are only used by \code{PBR}.  \code{F.r} is the recovery factor.  \code{r.max} is the maximum population growth rate for the species in question.  The default value for \code{r.max} (0.04) is the default value used in PBR calculations for any cetacean species for which a species-specific estimate is not available.}
-\item{ CLA.prog}{The path to the Fortran program that implements the CLA. The default should be correct unless MANAGE-D.exe or MANAGE-D (in the case of unix-alikes) has been moved subsequent to installation of the \pkg{tossm} package.}
+\item{ CLA.prog}{The path to the Fortran program that implements the CLA. The default should be correct unless MANAGE-D.exe or MANAGE-D (in the case of unix-alikes) has been moved subsequent to installation of the \code{tossm} package.}
 \item{ CLA.dir}{The location of some temporary files created by the CLA program}
 \item{ plot.polys}{A flag indicating whether or not the breeding polygons, sampling polygons, and historic removal polygons should be plotted at the beginning of each simulation.  Defaults to FALSE, however, if a problem with the polygons is detected by \code{tossm.diagnostics}, the polygons will be plotted even if this argument is set to false.}
 \item{ seed}{Integer. If \code{seed>0}, it ensures a reproducible sequence of datasets.}
@@ -103,7 +103,7 @@ mammals. \emph{Conservation Biology} \bold{14}, 1243-1252.
 schedule=def.make.schedule(n.pre.RMP=5,n.RMP=10,n.post.RMP=5,abund.gap=2)
 
 #Example 1: Use initial.depletion to specify pre-modern management depletion
-example1<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+example1<-run.tossm(rland = example.landscape, bp.polys=example.bp.polys,
 schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 initial.depletion=.30,historic.removals=NULL, 
 BSA = fixed.MU.BSA, BSA.args = list(n.mus=5),harvest.interval=10,plot.polys=TRUE)
@@ -117,7 +117,7 @@ removals.h1<-rep(75,5)
 removals.h2<-rep(0,5)
 historic.removals<-cbind(removals.h1,removals.h2)
 
-example2<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+example2<-run.tossm(rland = example.landscape, bp.polys=example.bp.polys,
 schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 historic.removals=historic.removals,historic.polys = example.historic.polys, 
 BSA = fixed.MU.BSA, BSA.args = list(n.mus=5),harvest.interval=10,plot.polys=T)

@@ -1,5 +1,4 @@
-`generate.coords` <-
-function(sample.poly,n.samples){
+generate.coords <- function(sample.poly,n.samples){
    coords <- NULL
    if (area.poly(sample.poly) > 0){
 	box.range <- get.bbox(sample.poly)
@@ -16,4 +15,3 @@ function(sample.poly,n.samples){
    }
    return(coords)
 }
-

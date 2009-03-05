@@ -1,5 +1,5 @@
-`PBR` <-
-function(Catches,est.abund.hist,CV.abund.hist,
+
+PBR<-function(Catches,est.abund.hist,CV.abund.hist,
   r.max=0.04,F.r=1,multiplier=1,...){
 
   #skim latest abund and CV for each MU off respective matrices
@@ -16,4 +16,5 @@ function(Catches,est.abund.hist,CV.abund.hist,
   PBR.TAC[which(is.nan(PBR.TAC))] <- 0
   return(PBR.TAC)
 }
+
 

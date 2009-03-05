@@ -1,5 +1,4 @@
-`harvest` <-
-function(mu.polys, interval.polys, bp.polys, rland, TAC){
+harvest <- function(mu.polys, interval.polys, bp.polys, rland, TAC){
 
    # Genetic data from harvested individuals is discarded.  However, this could
    # be easily changed in the future if we want to assume genetic data is collected
@@ -35,4 +34,3 @@ function(mu.polys, interval.polys, bp.polys, rland, TAC){
 	return(list(rland=rland, goners=goners))
    }
 }
-

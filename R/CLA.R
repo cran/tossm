@@ -1,4 +1,4 @@
-`CLA` <-
+"CLA" <-
 function(Catches,Abund.est,CV.est, multiplier=5, ...) {
  # Keep CLA happy...
  yrs.of.est <- index( !is.na( rowSums( Abund.est))) # won't work if partial ests
@@ -17,4 +17,5 @@ function(Catches,Abund.est,CV.est, multiplier=5, ...) {
        1000+yrs.of.est, 1000+1, 1000+n.y, ...))
 return( TAC)
 }
+
 

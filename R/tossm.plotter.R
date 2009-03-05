@@ -1,5 +1,4 @@
-`tossm.plotter` <-
-function(bp.polys,sample.polys,historic.polys){
+tossm.plotter<-function(bp.polys,sample.polys,historic.polys){
 
 #organize polygons for plotting
 
@@ -148,4 +147,6 @@ poly.col<-lapply(poly.col,function(x){
 		popViewport()
 	}
 }
+
+
 

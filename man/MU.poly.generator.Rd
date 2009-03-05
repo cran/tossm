@@ -49,7 +49,7 @@ removals.h1<-rep(75,5)
 removals.h2<-rep(0,5)
 historic.removals<-cbind(removals.h1,removals.h2)
 
-example<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+example<-run.tossm(rland = example.landscape, bp.polys=example.bp.polys,
 schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 historic.removals=historic.removals,historic.polys = example.historic.polys, 
 BSA = hyptest.network.BSA, BSA.args = list(sig.level=.05),

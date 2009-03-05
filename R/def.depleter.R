@@ -1,5 +1,4 @@
-`def.depleter` <-
-function(unused1, unused2, bp.polys, rland, TAC){
+def.depleter <- function(unused1, unused2, bp.polys, rland, TAC){
 
 	n.bps <- length(bp.polys)
 	goners <- goner.locs <- vector("list",n.bps)
@@ -15,4 +14,3 @@ function(unused1, unused2, bp.polys, rland, TAC){
 	}
 	return(list(rland=rland,goners=goner.locs))
 }
-

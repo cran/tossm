@@ -1,5 +1,4 @@
-`wombsoft.BSA` <-
-function(gs,abund,var,C,landscape.poly,
+wombsoft.BSA<-function(gs,abund,var,C,landscape.poly,
 			sample.polys,sig.level,min.MU.size){
 
 	#get genetic and coordinate information from run.tossm
@@ -242,4 +241,3 @@ function(gs,abund,var,C,landscape.poly,
 	munits<-womb.mat.to.polys(landscape.poly,bounds,min.MU.size)
 	return(munits)
 }
-

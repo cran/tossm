@@ -8,6 +8,6 @@ This is a list of two polygons representing the extent of the two areas of histo
 
 To create your own historic polygons, see \code{\link{example.bp.polys}} 
 }
-\usage{historic.polys}
+\usage{example.historic.polys}
 \format{list (length = 2) of gpclib polygon objects (\code{\link[<gpclib>:<gpclib>-package]{<gpclib>}})}
 \keyword{datasets}

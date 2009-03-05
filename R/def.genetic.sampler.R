@@ -1,4 +1,4 @@
-`def.genetic.sampler` <-
+"def.genetic.sampler" <-
 function(rland,sample.polys,bp.polys,n.samples,ID.tracker=NULL){
   n.bps <- length(bp.polys)
   n.ss <- length(sample.polys)
@@ -72,4 +72,5 @@ function(rland,sample.polys,bp.polys,n.samples,ID.tracker=NULL){
 
   return( gs.yr)
 }
+
 

@@ -1,5 +1,4 @@
-`tossm.diagnostics` <-
-function(bp.polys,sample.polys,historic.polys,rland){
+tossm.diagnostics<-function(bp.polys,sample.polys,historic.polys,rland){
 	
 #function to determine if sampling or historic polygons overlap
 	poly.overlap<-function(polys){
@@ -45,4 +44,5 @@ function(bp.polys,sample.polys,historic.polys,rland){
 
 	return(check)
 }
+	
 

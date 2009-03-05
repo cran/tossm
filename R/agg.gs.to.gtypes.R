@@ -1,5 +1,5 @@
-`agg.gs.to.gtypes` <-
-function(agg.gs,gs){
+"agg.gs.to.gtypes"<-
+	function(agg.gs,gs){
 
 	if (is.null(agg.gs)){agg.gtypes <- NULL
 	} else {

@@ -1,5 +1,5 @@
-`MU.poly.generator` <-
-function(MU.from.BSA,sample.polys,landscape.poly){
+
+MU.poly.generator<-function(MU.from.BSA,sample.polys,landscape.poly){
 
 	#generate a grid based the extent of the landscape poly
 	# default of 60X60
@@ -66,4 +66,6 @@ function(MU.from.BSA,sample.polys,landscape.poly){
 	#return the list of MU gpc.polys
 	return(union.list)
 }
+
+
 

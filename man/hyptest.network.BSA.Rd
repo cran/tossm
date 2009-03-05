@@ -37,15 +37,14 @@ fixed.MU.BSA(gs,abund,var,C,landscape.poly,sample.polys,n.mus)
 \code{freqscorr}: whether allele frequencies between populations are correlated (1) or not (0) \cr
 \code{maxpops}: the maximum number of populations to be defined by Structure \cr
 \code{burnin}: the length of the burnin period used by Structure \cr
-\code{iterations}: the number of iterations of the MCMC chain to be used by Structure in assigning population membership \cr
+\code{burnin}: the number of iterations of the MCMC chain to be used by Structure in assigning population membership \cr
 Further information regarding these parameters can be found in the Structure user's manual}
 \item{BSA.params}{a list with the following components to be used by \code{structure.BSA}: \cr
 \code{output.dir}: the directory to which STRUCTURE results should be written \cr
 \code{k}: a list of the values of k (number of populations) to be evaluated \cr
 \code{struct.exe.path}: the directory where structure.exe resides and where main params will be written. 
-The default value should be fine, so long as structure.exe is not moved subsequent to the installation of the package. \cr
-\code{struct.outfile}: the name of the output file to be written by STRUCTURE.   
- \cr
+The default value should be fine, so long as structure.exe is not moved subsequent to the installation of \pkg{tossm} \cr
+\code{struct.outfile}: the name of the output file to be written by STRUCTURE. \cr
 }
 }
 \value{\code{munits}--A list with each element consisting of a management unit, represented by a polygon of class 
@@ -206,7 +205,7 @@ the number of gene pools and their degree of connectivity. \emph{Molecular Ecolo
 schedule=def.make.schedule(n.pre.RMP=5,n.RMP=10,n.post.RMP=5,abund.gap=2)
 
 #run example with BSA set to hyptest.network.BSA
-example<-run.tossm(rland = rland.end, bp.polys=example.bp.polys,
+example<-run.tossm(rland = example.landscape, bp.polys=example.bp.polys,
 schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 initial.depletion=0.30,historic.removals=NULL, 
 BSA = hyptest.network.BSA, BSA.args = list(sig.level=.05),

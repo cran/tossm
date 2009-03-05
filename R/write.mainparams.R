@@ -1,5 +1,4 @@
-`write.mainparams` <-
-function(mainparams.file,params){
+write.mainparams <- function(mainparams.file,params){
 
 #params contains burnin,iterations,numinds,numloci,ploidy,maxpops,noadmix,freqscorr
 
@@ -40,4 +39,6 @@ paste("#define BURNIN    ",params$burnin," // (int) length of burnin period",sep
 paste("#define NUMREPS   ",params$iterations," // (int) number of MCMC reps after burnin",sep="")),
 file=mainparams.file,ncol=1)
 }
+
+
 

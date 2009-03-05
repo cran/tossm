@@ -1,4 +1,4 @@
-`index.to.state` <-
+"index.to.state"<-
 function(gs,ysamp=NULL){
 ######get all variables needed
 if (is.null(ysamp)) ysamp <- index( sapply( gs, length)>0)

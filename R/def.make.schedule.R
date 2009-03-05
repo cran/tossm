@@ -1,4 +1,4 @@
-`def.make.schedule` <-
+"def.make.schedule" <-
 function( n.pre.RMP, n.RMP, n.post.RMP=0, abund.gap=5){
   gs.years <- n.pre.RMP # last year before RMP
   pre.RMP.years <- 1 %upto% n.pre.RMP
@@ -12,4 +12,5 @@ function( n.pre.RMP, n.RMP, n.post.RMP=0, abund.gap=5){
   stop.years <- n.pre.RMP + n.RMP + n.post.RMP
 returnList( stop.years, gs.years, abund.est.years, pre.RMP.years, CLA.years, post.RMP.years, BSA.years)
 }
+
 

@@ -1,5 +1,5 @@
-`hyptest.network.BSA` <-
-function(gs,abund,var,C,landscape.poly,sample.polys,sig.level){
+
+hyptest.network.BSA<-function(gs,abund,var,C,landscape.poly,sample.polys,sig.level){
 
 	#get gs into the format needed for the test.g function of hierfstat
 	agg.gs<-agg.gs.tseries()
@@ -91,4 +91,3 @@ function(gs,abund,var,C,landscape.poly,sample.polys,sig.level){
 	return(munits)
  
 }
-
