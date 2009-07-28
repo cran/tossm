@@ -1,18 +1,9 @@
 "def.genetic.sampler" <-
-function(rland,sample.polys,bp.polys,n.samples,ID.tracker=NULL){
+function(rland,sample.polys,bp.polys,n.samples,n.in.ss,ID.tracker=NULL){
   n.bps <- length(bp.polys)
   n.ss <- length(sample.polys)
   if( length( n.samples) < n.ss)
     n.samples <- rep( n.samples, n.ss)[ 1:n.ss]
-  abund.b <- tabulate(landscape.populations(rland))
-  bp.density <- abund.b/sapply(bp.polys,function(x)area.poly(x))
-  #calculate abundance in each sample site
-  n.in.ss <- sapply(sample.polys, function(sp){
-	sapply(1:length(bp.polys),function(bp) {
-		floor(area.poly(intersect(sp,bp.polys[[bp]]))*bp.density[bp])
-	})
-  })
-  if(n.bps ==1) n.in.ss <- matrix(n.in.ss,nrow=n.bps)
   n.samples <- pmin(n.samples, colSums(n.in.ss))
   pop <- cbind(ID=rland$individuals[,4],pop=landscape.populations(rland))
 
@@ -27,13 +18,12 @@ function(rland,sample.polys,bp.polys,n.samples,ID.tracker=NULL){
   for( i.ss in 1:n.ss) {
 	gs.yr[[ i.ss]] <- array( 0/0, c( n.samples[ i.ss], n.loci, 2))
 	if(n.samples[i.ss] > 0){
-		n.per.bp <- floor((n.in.ss[,i.ss]/sum(n.in.ss[,i.ss]))*n.samples[i.ss])
-		if (n.bps > 1) n.per.bp[1] <- n.samples[i.ss]-sum(n.per.bp[2:n.bps])
+		n.per.bp <- tossm.round((n.in.ss[,i.ss]/sum(n.in.ss[,i.ss]))*n.samples[i.ss])
 
 		#constrain available sample to indiv's not already sampled
 		available.indiv <- pop[!(pop[,1] %in% ID.tracker),]
 		which <- do.call("c", lapply(1:length(n.per.bp), function(x){
-			rsample( n.per.bp[x], subset(available.indiv[,1],available.indiv[,2]==x), replace=FALSE)}))
+			if(n.per.bp[x]>0) rsample( n.per.bp[x], subset(available.indiv[,1],available.indiv[,2]==x), replace=FALSE)}))
 	        #Compile allele info from rmetasim format...
 		current.samp<-subset(rland$indiv,rland$indiv[,4] %in% which)
 		
@@ -72,5 +62,6 @@ function(rland,sample.polys,bp.polys,n.samples,ID.tracker=NULL){
 
   return( gs.yr)
 }
+
 
 

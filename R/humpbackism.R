@@ -9,7 +9,7 @@ function( rland, FIMA.mig.mat, row.eqm.f.by.b){
     }
   
   n.f <- ncol( FIMA.mig.mat)
-  CFMM <- matrix( cumsum( t( FIMA.mig.mat)), byrow=T, n.f, n.f)
+  CFMM <- matrix( cumsum( t( FIMA.mig.mat)), byrow=TRUE, n.f, n.f)
   CFMM <- CFMM - 0:(n.f-1)
   
   humpback.calf.f <- function( rland) {
@@ -21,7 +21,7 @@ function( rland, FIMA.mig.mat, row.eqm.f.by.b){
       rland
     }
     
-  cefb <- matrix( cumsum( t( row.eqm.f.by.b)), byrow=T, rland$intparam$habitats, n.f)
+  cefb <- matrix( cumsum( t( row.eqm.f.by.b)), byrow=TRUE, rland$intparam$habitats, n.f)
   cefb <- cefb - c( 0, clip( cumsum( rowSums( row.eqm.f.by.b))))
   FIMA <- 1 + rowSums( runif( nrow( rland$indiv)) > cefb[ landscape.populations( rland),])
   

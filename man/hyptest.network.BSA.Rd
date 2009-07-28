@@ -11,9 +11,9 @@
 }
 \usage{
 
-hyptest.network.BSA(gs,abund,var,C,landscape.poly,sample.polys,sig.level) 
+hyptest.network.BSA(gs,abund,var,C,landscape.poly,sample.polys,sig.level,constrained=FALSE) 
 structure.BSA(gs,abund,var,C,landscape.poly,sample.polys,mainparams,BSA.params)
-wombsoft.BSA(gs,abund,var,C,landscape.poly,sample.polys,sig.level,min.MU.size)
+wombsoft.BSA(gs,abund,var,C,landscape.poly,sample.polys,options.list)
 fixed.MU.BSA(gs,abund,var,C,landscape.poly,sample.polys,n.mus)
 }
 \arguments{
@@ -43,8 +43,8 @@ Further information regarding these parameters can be found in the Structure use
 \code{output.dir}: the directory to which STRUCTURE results should be written \cr
 \code{k}: a list of the values of k (number of populations) to be evaluated \cr
 \code{struct.exe.path}: the directory where structure.exe resides and where main params will be written. 
-The default value should be fine, so long as structure.exe is not moved subsequent to the installation of \pkg{tossm} \cr
-\code{struct.outfile}: the name of the output file to be written by STRUCTURE. \cr
+The default value should be fine, so long as structure.exe is not moved subsequent to the installation of \code{tossm}. \cr
+\code{struct.outfile}: the name of the output file to be written by STRUCTURE. \cr 
 }
 }
 \value{\code{munits}--A list with each element consisting of a management unit, represented by a polygon of class 
@@ -90,6 +90,8 @@ one-cell gaps.
 \cr
 2) If the size of an MU is less than a user-specified proportion of the total study area (\code{min.MU.size}), the MU is ignored. This 
 alleviates the fact that the algorithm sometimes outputs very small (one or two grid cell) MUs.
+\cr
+3) The remaining arguments in the list supplied to \code{wombsoft.BSA} dictate a number of other parameters used by the function, see Crida and Manel (2007).
 \cr
 \cr
 \code{fixed.MU.BSA} simply splits the study region into equally-sized management units, and disregards all genetic
@@ -208,7 +210,7 @@ schedule=def.make.schedule(n.pre.RMP=5,n.RMP=10,n.post.RMP=5,abund.gap=2)
 example<-run.tossm(rland = example.landscape, bp.polys=example.bp.polys,
 schedule = schedule,n.samples = 25, sample.polys=example.sample.polys, 
 initial.depletion=0.30,historic.removals=NULL, 
-BSA = hyptest.network.BSA, BSA.args = list(sig.level=.05),
+BSA = hyptest.network.BSA, BSA.args = list(sig.level=.05,constrained=TRUE),
 harvest.interval=10)
 }
 \keyword{internal}

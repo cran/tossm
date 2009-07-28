@@ -18,6 +18,7 @@
 #sim.abund.est
 #single.MU.BSA
 #TAC.split.by.f
+#tossm.round
 #sqr
 #original!object!list
 
@@ -112,7 +113,7 @@ function( x, ...){
 
 "rsample" <-
 function( n, pop, replace=FALSE, prob=NULL) 
-  sample( pop, size=n, replace=replace, prob=prob)
+  if (length(pop)==1) pop else sample( pop, size=n, replace=replace, prob=prob)
 
 
 
@@ -163,6 +164,29 @@ return( TAC.f)
 # return( TAC[ fg.to.mu])
 }
 
+"tossm.round" <-
+function (vec){
+  # custom function for rounding vectors, used when dividing samples/takes
+  # among bps.  In cases where rounding results in the 'loss' of an individual
+  # (e.g., c(1.333,1.333,1.333) rounds to c(1,1,1), which only sums to 3
+  # instead of 4), tossm.rounds increments the first non-zero element in the 
+  # rounded vector in order to maintain the sum and conform to the left-hand
+  # bias in tossm harvest
+  old.sum <- sum(vec)
+  vec <- floor(vec+0.5)
+  missed <- old.sum-sum(vec)
+  if (missed >= 1){
+	first.non.zero <- which (vec > 0)[1]
+	vec[first.non.zero] <- vec[first.non.zero] + missed
+  }
+  if (missed <= -1){
+	last.non.zero <- which(vec>0)
+	last.non.zero <- last.non.zero[length(last.non.zero)]
+	vec[last.non.zero] <- vec[last.non.zero] + missed
+  }
+  return(vec)
+}
+
 
 "sqr" <-
 function( x) x*x
@@ -178,6 +202,7 @@ c(".First.task", "abind.mvb", "adjust.pop.dyn", "agg.gs.series",
 "randomism", "raw.CLA", "rsample", "run.mvb.example2", "run.tossm", 
 "hyptest.seq.BSA", "set.TAC", "sim.abund.est", "single.MU.BSA", 
 "TAC.split.by.f", "sqr", "CLC.PAR", "rlsimp2", "rlsimp4")
+
 
 
 

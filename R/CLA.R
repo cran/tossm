@@ -1,5 +1,6 @@
 "CLA" <-
-function(Catches,Abund.est,CV.est, multiplier=5, ...) {
+
+ function(Catches,Abund.est,CV.est, multiplier=1,...) {
  # Keep CLA happy...
  yrs.of.est <- index( !is.na( rowSums( Abund.est))) # won't work if partial ests
  n.mu <- ncol( Catches)
@@ -12,9 +13,15 @@ function(Catches,Abund.est,CV.est, multiplier=5, ...) {
 #Second through fourth lines actually use the CLA to set quota
 #......................................................................
 #  TAC[ i.mu] <- round( Abund.est[ max( yrs.of.est), i.mu] * 0.04)
+# not sure that 'yrs of est' is always a number. When 
+# it is a "numeric (0)", does this screw things up?
+###   TAC[ i.mu] <- round( multiplier *
+###     raw.CLA( Catches[ ,i.mu], Abund.est[ yrs.of.est,i.mu], CV.est[ yrs.of.est,i.mu],
+###       1000+yrs.of.est, 1000+1, 1000+n.y, ...))
    TAC[ i.mu] <- round( multiplier *
-      raw.CLA( Catches[ ,i.mu], Abund.est[ yrs.of.est,i.mu], CV.est[ yrs.of.est,i.mu],
-       1000+yrs.of.est, 1000+1, 1000+n.y, ...))
+     raw.CLA( Catches[ ,i.mu], Abund.est[ yrs.of.est,i.mu], CV.est[ yrs.of.est,i.mu],
+       1000+ yrs.of.est, 1000+1, 1000+n.y, ...))
+
 return( TAC)
 }
 

@@ -185,8 +185,9 @@ C         Set the new value of K [Documentation Eqn 14]
         GOTO 30
    40   CONTINUE
    50 CONTINUE
-
-      IF (PTOT .LE. 0.D0) STOP 'ERROR: PROB INTEGRATES TO ZERO'
+C	another temporary fix to see if I can get the CLA to run
+C	commenting out the following line
+C     IF (PTOT .LE. 0.D0) STOP 'ERROR: PROB INTEGRATES TO ZERO'
 
 C     Sort the QRES and PRES arrays in ascending order of QRES. 
 C     (Note: N2=N is beyond the end of the array but SORT

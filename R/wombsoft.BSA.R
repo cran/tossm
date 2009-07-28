@@ -1,6 +1,6 @@
 wombsoft.BSA<-function(gs,abund,var,C,landscape.poly,
-			sample.polys,sig.level,min.MU.size){
-
+			sample.polys,options.list){
+	attach(options.list)
 	#get genetic and coordinate information from run.tossm
 	genes<-agg.gs.to.gtypes(agg.gs.tseries(),gs)
 	coords<-lapply(genes,function(x){
@@ -11,10 +11,10 @@ wombsoft.BSA<-function(gs,abund,var,C,landscape.poly,
 	write(t(compiled),file="data.txt",ncolumns=ncol(compiled))
 
 	#perform wombsoft analyses
-	data<-DataCodominant("data.txt",conversion=0,nb_x=30,nb_y=30,"coord_indiv.txt")
-	data<-MirrorCodominant(data,m=10)
-	WomblingCodominant(data,h=10,"systemic.txt","direction.txt")
-	cde<-CandidateBoundariesCodominant(data,h=10,pB=0.3)
+	data<-DataCodominant("data.txt",conversion=0,nb_x=nb_x,nb_y=nb_y,"coord_indiv.txt")
+	data<-MirrorCodominant(data,m=m)
+	WomblingCodominant(data,h=WCh,"systemic.txt","direction.txt")
+	cde<-CandidateBoundariesCodominant(data,h=CBh,pB=pB)
 	BinomialTestCodominant(data,cde,pvalue=sig.level,"boundaries.txt","dir_boundaries.txt")
 
 	#process wombsoft output

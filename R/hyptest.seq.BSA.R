@@ -24,7 +24,7 @@ function( gs, ea, vea, C, alpha){
       agg[,,1] <- colSums( agg.gfreq[ left %upto% (jr-1),,])
       agg[,,2] <- colSums( agg.gfreq[ jr %upto% right,,])
       # Do test per locus
-      pvals <- apply( agg, 1, function( x) chisq.test( x[ rowSums( x)>0, ], simulate=T, B=1000)$p.value)
+      pvals <- apply( agg, 1, function( x) chisq.test( x[ rowSums( x)>0, ], simulate=TRUE, B=1000)$p.value)
       # Fisher's rule for combining independent tests-- may have screwed up!
       hyp.score[ jr] <- pchisq( -2 * sum( log( 1-pvals)), df=n.loci) # give or take minus signs...
     }

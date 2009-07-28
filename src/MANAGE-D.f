@@ -1,5 +1,14 @@
       SUBROUTINE MANAGE
-C
+C	There are some small changes made to this file that differ
+C	from the 'original' (02/28/2006) code that we have.
+C	1)Above(header) PROGRAM MANAGE changed to SUBROUTINE MANAGE
+c	2)4th and 5th lines from the bottom added--
+C	3)'CLOSE(IN)';'CLOSE(IOUT)
+c	4)3rd line from bottom 'STOP' changed to 'RETURN'
+C	5)Last line "INCLUDE 'CLC-D.FOR'" removed
+C	These changes allow the CLA to run. They were made at the suggestion
+C	of Susie Jacobsen and Lisa Schwartz, and seem to work.
+C		DPG- 05/21/2006
 C     Changes since version published in RIWC 44 (1994) 158-160 :
 C     9/10/95  IS replaced by ILAST (typo in published version)
 C     9/10/95  Added check that abundance estimates are in year order
@@ -51,7 +60,7 @@ C     RKHI   Upper bound used in integration over K
 C
 C
       INTEGER MAXYR,MAXEST,MSIZE
-      PARAMETER (MAXYR=200, MAXEST=100)
+      PARAMETER (MAXYR=500, MAXEST=100)
       PARAMETER (MSIZE=(MAXEST*(MAXEST+1)/2))
       DOUBLE PRECISION CATCH(0:MAXYR), SIGHT(0:MAXEST), FMATRX(0:MSIZE),
      +     ZMULT(0:MAXEST),POP(0:MAXYR), G(0:MAXYR), RAWCL, CL, CLIMIT
@@ -78,7 +87,7 @@ C **** LOCAL VARIABLES
 C
       CHARACTER STOCK*30, FORMT*50
       DOUBLE PRECISION TOTALC,C
-      INTEGER IY, INITYR, I, IYRCL, ILAST, N, IN, IOUT,N1
+      INTEGER IY, INITYR, I, IYRCL, ILAST, N, IN, IOUT,N1,J
 C
 C     INITYR Year in which first premanagement catch taken 
 C     ILAST  Year of the most recent abundance estimate
@@ -113,7 +122,9 @@ C
 C     Re-scale IYRCL such that 0 is the year prior to the first input data
       ISTART = 0      
       IYEAR = IYRCL - INITYR
-      IF (IYEAR.LE.0 .OR. IYEAR.GT.MAXYR) STOP 'INVALID YEAR'
+C	temporary fix to see if I can get the CLA to run--dpg, 06/15/09
+C	commenting out the following line...
+C     IF (IYEAR.LE.0 .OR. IYEAR.GT.MAXYR) STOP 'INVALID YEAR'
 C
 C     Initialise the catch array
       DO 10 I=0,MAXYR
@@ -194,7 +205,7 @@ C     First set ILAST = year of the most recent abundance estimate
       IF (NS.GT.0) ILAST = ISYR(NS-1)
       IF (NZ.GT.0) ILAST = MAX(ILAST, IZYR(NZ-1))
 C
-      DO 100 IY = IYEAR,IYEAR+(INT(PCYCLE+0.0001))-1
+      DO 100 IY = IYEAR,IYEAR+PCYCLE-1
         IF (POUT.EQ.1) THEN 
           CALL PHOUT (CL,RAWCL,ILAST,IY)
         ELSE
@@ -208,4 +219,5 @@ C
       CLOSE(IOUT)
       RETURN
       END
-C     INCLUDE 'CLC-D.FOR'
+
+C     INCLUDE 'CLC-D.f'

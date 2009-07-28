@@ -14,8 +14,8 @@ run.tossm(rland=NULL, bp.polys, schedule=NULL, n.samples=NULL, sample.polys,
 	post.RMP.years=schedule$post.RMP.years, BSA.years=schedule$BSA.years, 
 	harvest.interval, genetic.sampler=def.genetic.sampler,
 	abund.for.10pc.CV=70000, quota.calc=PBR, 
-	quota.args=list(r.max=0.04,F.r=1,multiplier=1), CLA.prog=NULL, 
-	CLA.dir=NULL, plot.polys=FALSE, seed=-1) 
+	quota.args=list(r.max=0.04,F.r=1,multiplier=1),
+	plot.polys=FALSE, CLA.dir=NULL,seed=-1) 
 }
 \arguments{
 \item{rland}{A landscape from \code{rmetasim}}
@@ -65,8 +65,6 @@ unit.  See \code{\link{tossm-package}} for more details on harvest intervals.}
 \item{ abund.for.10pc.CV}{The coefficient of variation (CV) of the abundance estimates is assumed to be proportional to 1/sqrt( abund).  The constant of proportionality is chosen so that the CV is 0.1 at the value specified by this argument.  The default value for this argument (70,000) results in a CV of 0.30 when abundance equals 7,500.}
 \item{ quota.calc}{The algorithm to use for calculating catch quotas.  There are two quota calculating algorithms included with the \code{TOSSM} package - \code{CLA} (IWC, 1994), which is the algorithm used by the International Whaling Commission to set quotas, and \code{PBR} (Taylor et al. 2000), which is the algorithm for calculating quotas under the U.S. Marine Mammal Protection Act.}
 \item{ quota.args}{Extra arguments passed to the quota calculating algorithm. \code{multiplier} is used to scale the quota-- default is 1X.  \code{multiplier} is used by both \code{CLA} and \code{PBR}.  \code{r.max} and \code{F.r} are only used by \code{PBR}.  \code{F.r} is the recovery factor.  \code{r.max} is the maximum population growth rate for the species in question.  The default value for \code{r.max} (0.04) is the default value used in PBR calculations for any cetacean species for which a species-specific estimate is not available.}
-\item{ CLA.prog}{The path to the Fortran program that implements the CLA. The default should be correct unless MANAGE-D.exe or MANAGE-D (in the case of unix-alikes) has been moved subsequent to installation of the \code{tossm} package.}
-\item{ CLA.dir}{The location of some temporary files created by the CLA program}
 \item{ plot.polys}{A flag indicating whether or not the breeding polygons, sampling polygons, and historic removal polygons should be plotted at the beginning of each simulation.  Defaults to FALSE, however, if a problem with the polygons is detected by \code{tossm.diagnostics}, the polygons will be plotted even if this argument is set to false.}
 \item{ seed}{Integer. If \code{seed>0}, it ensures a reproducible sequence of datasets.}
 }

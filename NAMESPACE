@@ -1,4 +1,0 @@
-useDynLib(tossm)
-export(agg.gs.tseries,def.genetic.sampler,def.make.schedule,hyptest.network.BSA)
-export(MU.poly.generator,run.tossm,fixed.MU.BSA)
-import(gpclib)

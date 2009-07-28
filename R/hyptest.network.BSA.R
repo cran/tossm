@@ -1,5 +1,5 @@
 
-hyptest.network.BSA<-function(gs,abund,var,C,landscape.poly,sample.polys,sig.level){
+hyptest.network.BSA<-function(gs,abund,var,C,landscape.poly,sample.polys,sig.level,constrained=FALSE){
 
 	#get gs into the format needed for the test.g function of hierfstat
 	agg.gs<-agg.gs.tseries()
@@ -15,12 +15,13 @@ hyptest.network.BSA<-function(gs,abund,var,C,landscape.poly,sample.polys,sig.lev
 
 	concat.loci
 
+
 	#Perform pairwise g tests between all sampling sites
 	#output (sigmat.bin) a square matrix of 0's (signficant tests) and 1's (non-significant tests)
 
 	n.levels<-length(concat.loci)
 	n.individuals<-nrow(concat.loci[[1]])
-	sigmat<-matrix(NA,n.levels,n.levels)
+	sigmat<-matrix(0,n.levels,n.levels)
 	sigmat.bin<-matrix(NA,n.levels,n.levels)
 	tester<-2
 	if (tester==1){
@@ -31,7 +32,7 @@ hyptest.network.BSA<-function(gs,abund,var,C,landscape.poly,sample.polys,sig.lev
 			}
 		}
 		diag(sigmat.bin)<-1
-	} else {
+	} else if (constrained==FALSE) {#unconstrained, so compare all sampling sites
 		for (i.lev in 1:(n.levels-1)){
 			for (j.lev in (i.lev+1):n.levels){
 				test.data<-rbind(concat.loci[[i.lev]],concat.loci[[j.lev]]);
@@ -40,9 +41,22 @@ hyptest.network.BSA<-function(gs,abund,var,C,landscape.poly,sample.polys,sig.lev
 				sigmat[i.lev,j.lev]<-sigmat[j.lev,i.lev]<-test.result;
 			}
 		}
-		sigmat.bin<-ifelse(sigmat>sig.level,1,0)
-		diag(sigmat.bin) <- 1
+	} else {#implement geographic constraint
+		#generate voronoi diagram to determine which sampling sites are adjacent
+		pts <- do.call("rbind",lapply(sample.polys,function(p) gpcpoly.centroid(p)))
+		extract.named(get.voronoi(pts)) #generates edges, verts
+		#only compare adjacent sampling sites
+		for (e in 1:dim(edges)[1]){
+			samp.sites <- as.matrix(edges[e,3:4])
+			test.data<-rbind(concat.loci[[samp.sites[1]]],concat.loci[[samp.sites[2]]]);
+			sampleID.vec<-c(rep(samp.sites[1],nrow(concat.loci[[samp.sites[1]]])),rep(samp.sites[2],nrow(concat.loci[[samp.sites[2]]])));
+			test.result<-test.g(test.data,sampleID.vec)$p.val;				
+			sigmat[samp.sites[1],samp.sites[2]]<-sigmat[samp.sites[2],samp.sites[1]]<-test.result;
+		}
 	}
+	sigmat.bin<-ifelse(sigmat>sig.level,1,0)
+	diag(sigmat.bin) <- 1
+	
 
 	#create a list of length=n.sampling sites, that contains, for each sampling site, the 
 	#other sampling sites connected to it by non-significant g tests.

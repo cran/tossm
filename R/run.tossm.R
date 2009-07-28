@@ -9,7 +9,7 @@ function( rland=NULL, bp.polys, schedule=NULL,
     genetic.sampler=def.genetic.sampler, 
     abund.for.10pc.CV=70000, quota.calc=PBR,
     quota.args=list(r.max=0.04,F.r=1,multiplier=1), 
-    CLA.prog=NULL, CLA.dir=NULL, plot.polys=FALSE,
+    plot.polys=FALSE,CLA.dir=NULL,
     seed=-1) {
 
   if(plot.polys) tossm.plotter(bp.polys,sample.polys,historic.polys)
@@ -22,19 +22,20 @@ function( rland=NULL, bp.polys, schedule=NULL,
   library( mvbutils)
   n.y <- min( stop.years)
 
-  if( is.null( CLA.prog) && any( CLA.years <= n.y)) {
-    i.am.tossm <- max( match( cq( 'package:tossm', 'tossm'), search(), 0))
-    tossm.dir <- attr( as.environment( i.am.tossm), 'path')
-
+#  if( is.null( CLA.prog) && any( CLA.years <= n.y)) {
+#    i.am.tossm <- max( match( cq( 'package:tossm', 'tossm'), search(), 0))
+#    tossm.dir <- attr( as.environment( i.am.tossm), 'path')
+#
     if( is.null( CLA.dir)) {
       CLA.dir <- file.path( getwd(), 'CLA.temp')
       mkdir( CLA.dir)
-#      CLA.dir <- tempdir()
-#      on.exit( unlink( CLA.dir))
+      CLA.dir <- tempdir()
+      on.exit( unlink( CLA.dir))
     }
 
     cat( CLC.PAR, sep='\n', file=file.path( CLA.dir, 'CLC.PAR'))
-  }
+#   cat( CLC.PAR, sep='\n', file=file.path( getwd(), 'CLC.PAR'))
+#  }
 
   # Set up RNG and get rid of scary irrelevant warning about Walker's alias...
   if( seed>0) {
@@ -85,12 +86,13 @@ function( rland=NULL, bp.polys, schedule=NULL,
     abund.b[ i.y,] <- tabulate( landscape.populations( rland), n.b)
 
     cat( '  ', abund.b[ i.y,], '  ')
-    if (min(abund.b[ i.y,]) < 2) break
+#    if (min(abund.b[ i.y,]) < 2) break
     if (sum(abund.b[ i.y,]) < 2) break
 
     # Sample data?
     if( i.y %in% gs.years) {
-	gs[[i.y]] <- genetic.sampler(rland,sample.polys,bp.polys,n.samples)
+	n.in.ss <- get.n.in.ss(rland,sample.polys,bp.polys)
+	gs[[i.y]] <- genetic.sampler(rland,sample.polys,bp.polys,n.samples,n.in.ss)
 	gs <- index.to.state(gs,i.y)
       .GlobalEnv$.Random.seed <- save.rs # if run 2X with diff # gs then...
     }
@@ -130,8 +132,9 @@ function( rland=NULL, bp.polys, schedule=NULL,
       historic.removals[i.y, historic.removals[i.y,]<=0] <- 1
       TAC <- historic.removals[i.y,]
 	h.res <- depleter(historic.polys, historic.polys, bp.polys, rland, TAC)
+	h.res$actual.catch <- historic.removals[i.y,] <- TAC #in case TAC was changed by def.depleter
 	mu.hist[[i.y]]$mus <- historic.polys
-	mu.hist[[i.y]]$catch <- TAC
+	mu.hist[[i.y]]$TAC <- TAC
     } else if( i.y %in% post.RMP.years) {
       TAC <- rep( 0, dim(catches)[2])      
 	h.res <- harvest(historic.polys, historic.polys, bp.polys, rland, TAC)
@@ -171,19 +174,20 @@ function( rland=NULL, bp.polys, schedule=NULL,
 		if (is.null(var.abund.mu[[x]])) {rep(0/0,length(munits))
 		} else {var.abund.mu[[x]]}}))
         CV.abund.hist <- sqrt( var.abund.hist) / est.abund.hist
-
-        TAC <- do.call( 'quota.calc', c( list( as.matrix(catches[1:i.y,]),
-		est.abund.hist, CV.abund.hist,
-            Directory=CLA.dir), quota.args))
+ 	est.abund.hist[est.abund.hist<1]<-1
+	catches.CLA<-catches
+	catches.CLA[catches.CLA<1]<-1
+        TAC <- do.call( 'quota.calc', c( list( as.matrix(catches.CLA[1:i.y,]),
+		est.abund.hist, CV.abund.hist,Directory=CLA.dir), quota.args))
 	}
       
 	mu.hist[[i.y]]$mus <- munits
-	mu.hist[[i.y]]$catch <- TAC
+	mu.hist[[i.y]]$TAC <- TAC
       h.res <- harvest(munits, interval.polys, bp.polys, rland, TAC)
     }
 
     rland <- h.res$rland
-    catches[ i.y,] <- TAC
+    catches[ i.y,] <- h.res$actual.catch
     if(!is.null(h.res$goners)) catch.locs[[i.y]] <- h.res$goners
     effort[ i.y,] <- calc.effort( catch.locs,i.y)
 
@@ -201,11 +205,12 @@ function( rland=NULL, bp.polys, schedule=NULL,
 #  count.alleles.by.f()
   callo <- sys.call()
   result <- returnList( abund.b, catches, effort,
-      est.abund.mu, var.abund.mu, mu.hist,
+      catch.locs, est.abund.mu, var.abund.mu, mu.hist,
 	gs, agg.gs,agg.gtypes,call=callo, seed,rland)
   result[ 1:3] <- lapply( result[1:3], t) # save space printing-- years as cols
   class( result) <- 'tossm.obj'
 return( result)
 }
+
 
 
